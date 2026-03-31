@@ -25,22 +25,24 @@ public class ConfigReader {
         if (instance == null) instance = new ConfigReader();
         return instance;
     }
-        public String getPassword() {
-        String password = System.getenv("APP_PASSWORD");
-        if (password == null || password.isBlank()) {
-            return props.getProperty("password", "secret_sauce"); // Fallback
-        }
-        return password;
+    public String getPassword() {
+            String password = System.getenv("APP_PASSWORD");
+            if (password == null || password.isBlank()) {
+                
+                return props.getProperty("password", ""); 
+            }
+            return password;
+        
     }
 
     public String getUsername() {
         String username = System.getenv("APP_USERNAME");
         if (username == null || username.isBlank()) {
-            return props.getProperty("username", "standard_user");
+            
+            return props.getProperty("username", "");
         }
         return username;
     }
-
     public String getBaseUrl() { return props.getProperty("base.url", "https://www.saucedemo.com"); }
 
     
