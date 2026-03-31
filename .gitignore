@@ -1,0 +1,19 @@
+# Bỏ qua thư mục build của Maven
+target/
+
+# Bỏ qua cấu hình của các IDE (VS Code, IntelliJ, Eclipse)
+.idea/
+.vscode/
+*.iml
+*.iws
+.classpath
+.project
+.settings/
+
+# Bỏ qua ảnh chụp màn hình và báo cáo cũ ở local
+screenshots/
+allure-results/
+
+# Bỏ qua các file log và biến môi trường
+*.log
+.env
