@@ -11,7 +11,6 @@ jobs:
     
     strategy:
       matrix:
-        # Chạy song song trên Chrome và Edge (thay cho Firefox)
         browser: [chrome, edge] 
       fail-fast: false
       
@@ -24,7 +23,8 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-- name: Check Security Masking
+
+      - name: Check Security Masking
         run: |
           echo "Username dang dung la: $APP_USERNAME"
           echo "Password dang dung la: $APP_PASSWORD"
@@ -38,14 +38,6 @@ jobs:
           APP_USERNAME: ${{ secrets.SAUCEDEMO_USERNAME }}
           APP_PASSWORD: ${{ secrets.SAUCEDEMO_PASSWORD }}
 
-- name: Run Selenium Tests (${{ matrix.browser }})
-        run: mvn clean test -Dbrowser=${{ matrix.browser }} -Denv=staging -DsuiteXmlFile=testng-smoke.xml
-        env:
-          # GitHub sẽ lấy giá trị trong Secrets và gán vào biến môi trường của máy ảo
-          # Khi in ra log, GitHub sẽ tự động đổi thành *** để bảo mật
-          APP_USERNAME: ${{ secrets.SAUCEDEMO_USERNAME }}
-          APP_PASSWORD: ${{ secrets.SAUCEDEMO_PASSWORD }}
-        
       - name: Upload Test Artifacts
         if: always()
         uses: actions/upload-artifact@v4
