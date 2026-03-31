@@ -1,5 +1,5 @@
-version: '3.8'
 services:
+
   # Hub: Trung tâm điều phối
   selenium-hub:
     image: selenium/hub:4.18.1
