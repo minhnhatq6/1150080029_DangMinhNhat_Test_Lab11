@@ -3,7 +3,7 @@ name: Selenium Test Suite
 # Chạy pipeline mỗi khi có người push code lên nhánh main
 on:
   push:
-    branches:[ main ]
+    branches: [ main ]
   workflow_dispatch: # Bật nút cho phép chạy bằng tay trên GitHub
 
 jobs:
