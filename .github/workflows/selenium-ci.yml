@@ -11,24 +11,25 @@ jobs:
     
     strategy:
       matrix:
-        browser: [chrome, edge] # Đổi sang chạy Chrome và Microsoft Edge
+        # Chạy song song trên Chrome và Edge (thay cho Firefox)
+        browser: [chrome, edge] 
       fail-fast: false
       
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Cài đặt Java 17
+      - name: Set up Java 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
-          # Đã tạm xóa cache: maven để tránh lỗi báo không tìm thấy pom.xml
 
-- name: Chạy Selenium Tests (${{ matrix.browser }})
-        run: cd selenium-framework && mvn clean test -Dbrowser=${{ matrix.browser }} -Denv=staging -DsuiteXmlFile=testng-smoke.xml
+      - name: Run Selenium Tests (${{ matrix.browser }})
+        # Đã xóa lệnh 'cd' vì bạn đã đưa pom.xml ra thư mục gốc
+        run: mvn clean test -Dbrowser=${{ matrix.browser }} -Denv=staging -DsuiteXmlFile=testng-smoke.xml
         
-      - name: Lưu kết quả test (Artifacts)
+      - name: Upload Test Artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -36,5 +37,4 @@ jobs:
           path: |
             target/surefire-reports/
             target/screenshots/
-            target/allure-results/
-          retention-days: 30
+          retention-days: 7
