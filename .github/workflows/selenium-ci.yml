@@ -25,8 +25,8 @@ jobs:
           distribution: 'temurin'
           # Đã tạm xóa cache: maven để tránh lỗi báo không tìm thấy pom.xml
 
-      - name: Chạy Selenium Tests (${{ matrix.browser }})
-        run: mvn clean test -Dbrowser=${{ matrix.browser }} -Denv=staging -DsuiteXmlFile=testng-smoke.xml
+- name: Chạy Selenium Tests (${{ matrix.browser }})
+        run: cd selenium-framework/demo && mvn clean test -Dbrowser=${{ matrix.browser }} -Denv=staging -DsuiteXmlFile=testng-smoke.xml
         
       - name: Lưu kết quả test (Artifacts)
         if: always()
