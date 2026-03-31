@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="Lab9_DataDriven_Suite">
+
+    <test name="Login_DDT_Test_Theo_Group">
+        <groups>
+            <run>
+                <!-- 
+                  YÊU CẦU QUAN TRỌNG:
+                  - Để chạy nhóm SMOKE, bạn giữ nguyên chữ "smoke".
+                  - Để chạy nhóm REGRESSION, bạn hãy sửa chữ "smoke" thành "regression".
+                -->
+                <include name="smoke"/>
+            </run>
+        </groups>
+        
+<classes>
+    <class name="tests.LoginDDTTest"/>
+</classes>
+    </test>
+    
+</suite>
