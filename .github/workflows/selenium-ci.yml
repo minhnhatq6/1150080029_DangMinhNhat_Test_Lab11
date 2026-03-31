@@ -1,18 +1,20 @@
 name: Selenium Test Suite
 
+# Chạy pipeline mỗi khi có người push code lên nhánh main
 on:
   push:
-    branches: [ main ]
-  workflow_dispatch:
+    branches: git add .[ main ]
+  workflow_dispatch: # Bật nút cho phép chạy bằng tay trên GitHub
 
 jobs:
   run-tests:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest # Sử dụng máy ảo Linux do GitHub cấp miễn phí
     
+    # BÀI 2: CẤU HÌNH MATRIX CHẠY SONG SONG
     strategy:
       matrix:
-        browser: [chrome, edge] # Đổi sang chạy Chrome và Microsoft Edge
-      fail-fast: false
+        browser: [chrome, firefox] # Tạo 2 luồng: 1 luồng Chrome, 1 luồng Firefox
+      fail-fast: false # Nếu Chrome lỗi thì Firefox vẫn chạy tiếp không bị hủy
       
     steps:
       - name: Checkout code
@@ -23,15 +25,17 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-          # Đã tạm xóa cache: maven để tránh lỗi báo không tìm thấy pom.xml
+          cache: maven # Lưu cache để lần sau build nhanh hơn
 
-- name: Chạy Selenium Tests (${{ matrix.browser }})
-        run: cd selenium-framework/demo && mvn clean test -Dbrowser=${{ matrix.browser }} -Denv=staging -DsuiteXmlFile=testng-smoke.xml
+      - name: Chạy Selenium Tests (${{ matrix.browser }})
+        # Lệnh này sẽ được chạy 2 lần với 2 tham số browser khác nhau
+        run: mvn clean test -Dbrowser=${{ matrix.browser }} -Denv=staging -DsuiteXmlFile=testng-smoke.xml
         
       - name: Lưu kết quả test (Artifacts)
-        if: always()
+        if: always() # Chạy bước này kể cả khi test bị FAIL
         uses: actions/upload-artifact@v4
         with:
+          # Đặt tên artifact phân biệt theo trình duyệt (BÀI 2)
           name: test-results-${{ matrix.browser }}
           path: |
             target/surefire-reports/
